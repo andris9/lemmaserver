@@ -28,6 +28,4 @@ gearman.registerWorker("lemma", function(payload, worker){
 
 	    worker.end(returnWords.join(", "));
 	});
-
-    worker.end(reversed);
 });
