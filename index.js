@@ -23,7 +23,7 @@ gearman.registerWorker("lemma", function(payload, worker){
 
 	    returnWords = [];
 	    for(var i=0, len = words.length; i<len; i++){
-	    	returnWords.push(lemma[words[i]] && lemma[words[i]] || words[i]);
+	    	returnWords.push(lemmas[words[i]] && lemmas[words[i]][0] || words[i]);
 	    }
 
 	    worker.end(returnWords.join(", "));
