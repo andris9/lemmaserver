@@ -15,7 +15,7 @@ gearman.registerWorker("lemma", function(payload, worker){
 
     var words = (payload || "").toString("utf-8").trim().split(/\s*,\s*/);
 
-    lemma(words, function(err, lemmas){
+    lemma.findLemmas(words, function(err, lemmas){
 	    if(err){
 	    	worker.error();
 	    	return;
