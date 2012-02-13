@@ -5,7 +5,7 @@ var lemma = require("lemma"),
 lemma.config.morfdir = pathlib.join("C:","APP", "estmorf");
 lemma.config.tempdir = "F:";
 
-var gearman = Gearman("pangalink.net");
+var gearman = new Gearman("pangalink.net");
 
 gearman.registerWorker("lemma", function(payload, worker){
 	if(!payload){
