@@ -20,6 +20,12 @@ var gearmanHostname = argv.gm || "pangalink.net",
     initialConnectTimeout = 15, // seconds
     nextTimeout = initialConnectTimeout;
 
+process.on('uncaughtException', function (err) {
+    try{
+        gearmanClient.close();
+    }catch(E){}
+});
+
 var logfile;
 
 if(argv.log){
@@ -83,9 +89,9 @@ function processLemma(payload, worker){
 
         // display 
         Log("REQ " + 
-            (words.length<logMaxWords?words:words.slice(0,logMaxWords).concat("["+words.length-logMaxWords+" more]")).join(", ") +
-            "::" +
-            (returnWords.length<logMaxWords?returnWords:returnWords.slice(0,logMaxWords).concat("["+returnWords.length-logMaxWords+" more]")).join(", ")
+            (words.length<logMaxWords?words:words.slice(0,logMaxWords).concat("["+(words.length - logMaxWords)+" more]")).join(", ") +
+            " :: " +
+            (returnWords.length<logMaxWords?returnWords:returnWords.slice(0,logMaxWords).concat("["+(returnWords.length - logMaxWords)+" more]")).join(", ")
         )
 
         worker.end(returnWords.join(", "));
