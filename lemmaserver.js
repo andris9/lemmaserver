@@ -8,12 +8,13 @@ if(argv.h){
     process.exit();
 }
 
-lemma.config.morfdir = argv.morf || pathlib.join("C:","APP", "estmorf");
-lemma.config.tempdir = argv.temp || "F:";
+lemma.config.morfdir = argv.morf || pathlib.join("C:","APP", "estmorf");
+lemma.config.tempdir = argv.temp || "F:";
 
-var gearmanHost = argv.gm || "pangalink.net";  
+var gearmanServer = argv.gm || "pangalink.net",
+    gearmanPort = argv.port || 4730;
 
-var gearman = new Gearman(gearmanHost);
+var gearman = new Gearman(gearmanServer, gearmanPort);
 
 gearman.registerWorker("lemma", function(payload, worker){
 	if(!payload){
@@ -21,7 +22,7 @@ gearman.registerWorker("lemma", function(payload, worker){
         return;
     }
 
-    var words = (payload || "").toString("utf-8").trim().split(/\s*,\s*/);
+    var words = (payload || "").toString("utf-8").trim().split(/\s*,\s*/);
 
     lemma.findLemmas(words, function(err, lemmas){
 	    if(err){
@@ -31,7 +32,7 @@ gearman.registerWorker("lemma", function(payload, worker){
 
 	    returnWords = [];
 	    for(var i=0, len = words.length; i<len; i++){
-	    	returnWords.push(lemmas[words[i]] && lemmas[words[i]][0] || words[i]);
+	    	returnWords.push(lemmas[words[i]] && lemmas[words[i]][0] || words[i]);
 	    }
 
 	    worker.end(returnWords.join(", "));
