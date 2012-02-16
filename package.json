@@ -11,6 +11,7 @@
     "main" : "./index",
     "dependencies": {
         "lemma": "*",
-        "node-gearman":"*"
+        "node-gearman":"*",
+        "optimist": "*"
     }
 }
